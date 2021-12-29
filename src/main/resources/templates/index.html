@@ -1,0 +1,22 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Guess the number game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<br>
+<div>
+    <h2>
+        Welcome the guess the number game! Guess a number.<br> <br>
+    </h2>
+    <form method="post" action="guess" modelAttribute="guess">
+
+        <label for="guess">My number:</label><br>
+        <input type="guess" id="guess" name="guess"><br><br>
+
+        <input type="submit" value="Guess number">
+    </form>
+</div>
+</body>
+</html>
