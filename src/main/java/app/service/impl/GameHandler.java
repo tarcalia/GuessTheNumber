@@ -16,6 +16,22 @@ public class GameHandler implements GameService {
     private Integer currentNumber;
     private Integer numberOfTips;
 
+    public Integer getCurrentNumber() {
+        return currentNumber;
+    }
+
+    public void setCurrentNumber(Integer currentNumber) {
+        this.currentNumber = currentNumber;
+    }
+
+    public Integer getNumberOfTips() {
+        return numberOfTips;
+    }
+
+    public void setNumberOfTips(Integer numberOfTips) {
+        this.numberOfTips = numberOfTips;
+    }
+
     public GameHandler(GameRepository gameRepository) {
         this.gameRepository = gameRepository;
     }

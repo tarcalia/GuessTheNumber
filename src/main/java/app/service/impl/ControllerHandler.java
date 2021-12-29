@@ -29,6 +29,9 @@ public class ControllerHandler implements ControllerService {
 
     @Override
     public String getAnalyseResult(String guess) {
+        if (guess == null) {
+            throw new NullPointerException("Null value given as parameter at getAnalyseResult method at ControllerHandler class");
+        }
         String result = "result";
         if (Objects.equals(gameService.analyseGuess(guess), "You win!")) {
             result = "win";
