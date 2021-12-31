@@ -1,5 +1,6 @@
 package app.service.impl;
 
+import app.repository.ActualGameRepository;
 import app.repository.GameRepository;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -27,12 +28,40 @@ public class GameHandlerTest {
     @Mock
     private GameRepository gameRepository;
 
+    @Mock
+    private ActualGameRepository actualGameRepository;
+
     @InjectMocks
     private GameHandler underTest;
 
     @BeforeMethod
     public void setUp() {
         MockitoAnnotations.openMocks(this);
+    }
+
+    @Test
+    public void testGetGames() {
+        //given
+        //when
+        GameRepository result = underTest.getGames();
+        //then
+        assertThat(result, equalTo(gameRepository));
+    }
+
+    @Test
+    public void testGetActualGames() {
+        //given
+        //when
+        ActualGameRepository result = underTest.getActualGames();
+        //then
+        assertThat(result, equalTo(actualGameRepository));
+    }
+
+    @Test
+    public void testPrepareNewGame() {
+        //given
+        //when
+        //then
     }
 
     @Test(dataProvider = "sampleGuesses")
@@ -62,12 +91,38 @@ public class GameHandlerTest {
         //then
     }
 
+    @Test(dataProvider = "sampleGuessesForHandleGuessTest")
+    public void testHandleGuess(String resultParameter, String expected) {
+        //given
+        //when
+        String result = underTest.handleGuess(resultParameter);
+        //then
+        assertThat(result, equalTo(expected));
+    }
+
+    @Test(expectedExceptions = NullPointerException.class)
+    public void testHandleGuessWithNPE() {
+        //given
+        //when
+        underTest.handleGuess(null);
+        //then
+    }
+
     @DataProvider(name = "sampleGuesses")
     public Object[][] sampleGuesses() {
         return new Object [][] {
                 {TIP_ONE, NUMBER_IS_BIGGER},
                 {TIP_TWO, NUMBER_IS_SMALLER},
                 {TIP_THREE, NUMBER_IS_EQUAL},
+        };
+    }
+
+    @DataProvider(name = "sampleGuessesForHandleGuessTest")
+    public Object[][] sampleGuessesForHandleGuessTest() {
+        return new Object [][] {
+                {TIP_THREE, NUMBER_IS_EQUAL},
+                {TIP_TWO, NUMBER_IS_SMALLER},
+                {TIP_ONE, NUMBER_IS_BIGGER},
         };
     }
 }

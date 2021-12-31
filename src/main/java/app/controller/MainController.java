@@ -18,15 +18,19 @@ public class MainController {
     }
 
     @RequestMapping("/")
-    public String index() {
-        controllerService.getGameService().getNewNumber();
+    public String index(Model model) {
+        controllerService.getGameService().prepareNewGame();
+        model.addAttribute("games", controllerService.getGameService().getGames().findAll());
         return "index";
     }
 
     @RequestMapping("/guess")
     public String guess(@ModelAttribute(value = "guess") String guess, Model model) {
         String result = controllerService.getGameService().analyseGuess(guess);
+        controllerService.getGameService().handleGuess(guess);
         model.addAttribute("result", result);
+        model.addAttribute("games", controllerService.getGameService().getGames().findAll());
+        model.addAttribute("guesses", controllerService.getGameService().getActualGames().findAll());
         return controllerService.getAnalyseResult(guess);
     }
 }

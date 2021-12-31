@@ -1,6 +1,8 @@
 package app.service.impl;
 
+import app.domain.ActualGame;
 import app.domain.Game;
+import app.repository.ActualGameRepository;
 import app.repository.GameRepository;
 import app.service.GameService;
 import org.springframework.stereotype.Service;
@@ -8,11 +10,12 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * Service class for the game.
+ * Service class for {@link GameHandler}.
  */
 @Service
 public class GameHandler implements GameService {
     private GameRepository gameRepository;
+    private ActualGameRepository actualGameRepository;
     private Integer currentNumber;
     private Integer numberOfTips;
 
@@ -32,13 +35,25 @@ public class GameHandler implements GameService {
         this.numberOfTips = numberOfTips;
     }
 
-    public GameHandler(GameRepository gameRepository) {
+    public GameHandler(GameRepository gameRepository, ActualGameRepository actualGameRepository) {
         this.gameRepository = gameRepository;
+        this.actualGameRepository = actualGameRepository;
     }
 
     @Override
-    public void getNewNumber() {
+    public GameRepository getGames() {
+        return gameRepository;
+    }
+
+    @Override
+    public ActualGameRepository getActualGames() {
+        return actualGameRepository;
+    }
+
+    @Override
+    public void prepareNewGame() {
         resetNumberOfTips();
+        actualGameRepository.deleteAll();
         currentNumber = ThreadLocalRandom.current().nextInt(1, 100 + 1);
     }
 
@@ -47,17 +62,27 @@ public class GameHandler implements GameService {
         if (playerTip == null) {
             throw new NullPointerException("Given number is null");
         }
-        int intValue = Integer.parseInt(playerTip);
-        numberOfTips++;
         String guessResult = "The number is bigger.";
-        if (currentNumber.equals(intValue)) {
-            saveGameToDataBase(intValue);
+        if (currentNumber.equals(Integer.parseInt(playerTip))) {
             guessResult = "You win!";
         }
-        if (currentNumber < intValue) {
+        if (currentNumber < Integer.parseInt(playerTip)) {
             guessResult = "The number is smaller.";
         }
         return guessResult;
+    }
+
+    @Override
+    public String handleGuess(String result){
+        if (analyseGuess(result) == null) {
+            throw new NullPointerException("Given number is null");
+        }
+        numberOfTips++;
+        if (analyseGuess(result).equals("You win!")) {
+            saveGameToDataBase(numberOfTips);
+        }
+        saveActualGameToDataBase(analyseGuess(result), Integer.parseInt(result));
+        return analyseGuess(result);
     }
 
     private void resetNumberOfTips() {
@@ -68,7 +93,14 @@ public class GameHandler implements GameService {
         if (numberOfTips == null) {
             throw new NullPointerException("Null value added at saveGameToDataBase method.");
         }
-        gameRepository.save(new Game(numberOfTips));
+        gameRepository.save(new Game(currentNumber, numberOfTips));
+    }
+
+    private void saveActualGameToDataBase(String playerTip, Integer numberOfTips) {
+        if (playerTip == null || numberOfTips == null) {
+            throw new NullPointerException("Null value added at saveActualGameToDataBase method.");
+        }
+        actualGameRepository.save(new ActualGame(numberOfTips, playerTip));
     }
 
 }

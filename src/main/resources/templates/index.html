@@ -1,4 +1,5 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Guess the number game</title>
     <link rel="stylesheet" href="style.css">
@@ -16,6 +17,20 @@
 
         <input type="submit" value="Guess number">
     </form>
+
+    <h2>Latest games:</h2>
+
+    <table>
+        <tr>
+            <th class="guessNumber">Guess number</th>
+            <th class="numberOfTips">Number of tips</th>
+        </tr>
+        <tr th:each="game: ${games}">
+            <td th:text="${game.numberToFind}" />
+            <td th:text="${game.numberOfTips}" />
+        </tr>
+    </table><br><br>
+
 </div>
 </body>
 </html>

@@ -15,12 +15,14 @@ public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer gameId;
+    private Integer numberToFind;
     private Integer numberOfTips;
 
     public Game() {
     }
 
-    public Game(Integer numberOfTips) {
+    public Game(Integer numberToFind, Integer numberOfTips) {
+        this.numberToFind = numberToFind;
         this.numberOfTips = numberOfTips;
     }
 
@@ -30,6 +32,14 @@ public class Game {
 
     public void setGameId(Integer gameId) {
         this.gameId = gameId;
+    }
+
+    public Integer getNumberToFind() {
+        return numberToFind;
+    }
+
+    public void setNumberToFind(Integer numberToFind) {
+        this.numberToFind = numberToFind;
     }
 
     public Integer getNumberOfTips() {
@@ -45,18 +55,19 @@ public class Game {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Game game = (Game) o;
-        return Objects.equals(gameId, game.gameId) && Objects.equals(numberOfTips, game.numberOfTips);
+        return Objects.equals(gameId, game.gameId) && Objects.equals(numberToFind, game.numberToFind) && Objects.equals(numberOfTips, game.numberOfTips);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(gameId, numberOfTips);
+        return Objects.hash(gameId, numberToFind, numberOfTips);
     }
 
     @Override
     public String toString() {
         return "Game{" +
                 "gameId=" + gameId +
+                ", numberToFind=" + numberToFind +
                 ", numberOfTips=" + numberOfTips +
                 '}';
     }

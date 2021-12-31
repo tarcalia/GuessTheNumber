@@ -17,6 +17,20 @@
 
         <input type="submit" value="Guess number">
     </form>
+
+    <h2>Latest guesses:</h2>
+
+    <table>
+        <tr>
+            <th class="guessNumber">Guess number</th>
+            <th class="result">Result</th>
+        </tr>
+        <tr th:each="guess: ${guesses}">
+            <td th:text="${guess.number}" />
+            <td th:text="${guess.result}" />
+        </tr>
+    </table><br><br>
+
 </div>
 </body>
 </html>
