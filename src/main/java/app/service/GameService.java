@@ -1,9 +1,11 @@
 package app.service;
 
 import app.domain.Game;
-import app.repository.ActualGameRepository;
+import app.domain.GuessResult;
 import app.repository.GameRepository;
 import app.domain.ActualGame;
+
+import java.util.List;
 
 /**
  * Service interface for the game.
@@ -20,7 +22,7 @@ public interface GameService {
      * @param playerTip is the number given by the player.
      * @return the result of the analysed number.
      */
-    String analyseGuess(String playerTip);
+    GuessResult analyseGuess(String playerTip);
 
     /**
      * Handles the game main mechanic.
@@ -36,9 +38,9 @@ public interface GameService {
     GameRepository getGames();
 
     /**
-     * Gives access to {@link ActualGameRepository}.
+     * Gives the current {@link ActualGame}s.
      * @return repository containing {@link ActualGame}s.
      */
-    ActualGameRepository getActualGames();
+    List<ActualGame> getActualGames();
 
 }

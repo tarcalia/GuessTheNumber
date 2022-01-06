@@ -1,0 +1,20 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Guess the number game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<br>
+<div>
+    <h2 th:text="${error}">
+        Error message here.<br> <br>
+    </h2>
+    <p th:text="${message}">Message here</p>
+    <p th:text="${path}">Message here</p>
+    <p th:text="${status}">Message here</p>
+    <p th:text="${timestamp}">Message here</p>
+
+</div>
+</body>
+</html>

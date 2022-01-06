@@ -26,11 +26,10 @@ public class MainController {
 
     @RequestMapping("/guess")
     public String guess(@ModelAttribute(value = "guess") String guess, Model model) {
-        String result = controllerService.getGameService().analyseGuess(guess);
         controllerService.getGameService().handleGuess(guess);
-        model.addAttribute("result", result);
+        model.addAttribute("result", controllerService.getGameService().analyseGuess(guess).label);
         model.addAttribute("games", controllerService.getGameService().getGames().findAll());
-        model.addAttribute("guesses", controllerService.getGameService().getActualGames().findAll());
+        model.addAttribute("guesses", controllerService.getGameService().getActualGames());
         return controllerService.getAnalyseResult(guess);
     }
 }

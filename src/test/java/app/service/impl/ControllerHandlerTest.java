@@ -1,5 +1,6 @@
 package app.service.impl;
 
+import app.domain.GuessResult;
 import app.service.GameService;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -16,8 +17,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class ControllerHandlerTest {
     private static final String SAMPLE_STRING_FROM_USER = "15";
-    private static final String GAME_SERVICE_WIN = "You win!";
-    private static final String GAME_SERVICE_TRY_AGAIN = "Not win yet";
+    private static final GuessResult GAME_SERVICE_WIN = GuessResult.WIN;
+    private static final GuessResult GAME_SERVICE_TRY_AGAIN = GuessResult.SMALLER;
     private static final String WIN = "win";
     private static final String RESULT = "result";
 
@@ -35,13 +36,13 @@ public class ControllerHandlerTest {
     @Test(dataProvider = "sampleResults")
     public void testGetAnalyseResult(String guess, String gameServiceResult, String expected) {
         //given
-        when(gameService.analyseGuess(guess)).thenReturn(gameServiceResult);
+        when(gameService.analyseGuess(guess)).thenReturn(GuessResult.valueOf(gameServiceResult));
         //when
         String result = underTest.getAnalyseResult(guess);
         //then
         assertThat(result, equalTo(expected));
     }
-    @Test(expectedExceptions = NullPointerException.class)
+    @Test(expectedExceptions = IllegalArgumentException.class)
     public void testGetAnalyseResultWithNPE() {
         //given
         //when

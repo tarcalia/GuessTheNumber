@@ -1,6 +1,7 @@
 package app.service;
 
 import app.controller.MainController;
+import app.domain.GuessResult;
 import app.repository.GameRepository;
 import app.domain.Game;
 

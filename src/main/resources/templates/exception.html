@@ -1,0 +1,39 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Guess the number game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<br>
+<div>
+    <h2 th:text="${exception}">
+        Exception message here.<br> <br>
+    </h2>
+
+    <h2>
+        Try again<br> <br>
+    </h2>
+    <form method="post" action="guess" modelAttribute="guess">
+
+        <label for="guess">My number:</label><br>
+        <input type="guess" id="guess" name="guess"><br><br>
+
+        <input type="submit" value="Guess number">
+    </form>
+
+    <h2>Latest games:</h2>
+
+    <table>
+        <tr>
+            <th class="guessNumber">Guess number</th>
+            <th class="numberOfTips">Number of tips</th>
+        </tr>
+        <tr th:each="game: ${games}">
+            <td th:text="${game.numberToFind}" />
+            <td th:text="${game.numberOfTips}" />
+        </tr>
+    </table><br><br>
+</div>
+</body>
+</html>

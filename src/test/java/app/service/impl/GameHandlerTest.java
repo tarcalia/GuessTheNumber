@@ -1,6 +1,6 @@
 package app.service.impl;
 
-import app.repository.ActualGameRepository;
+import app.domain.GuessResult;
 import app.repository.GameRepository;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -28,9 +28,6 @@ public class GameHandlerTest {
     @Mock
     private GameRepository gameRepository;
 
-    @Mock
-    private ActualGameRepository actualGameRepository;
-
     @InjectMocks
     private GameHandler underTest;
 
@@ -52,9 +49,9 @@ public class GameHandlerTest {
     public void testGetActualGames() {
         //given
         //when
-        ActualGameRepository result = underTest.getActualGames();
+       // ActualGameRepository result = underTest.getActualGames();
         //then
-        assertThat(result, equalTo(actualGameRepository));
+       // assertThat(result, equalTo(actualGameRepository));
     }
 
     @Test
@@ -70,12 +67,12 @@ public class GameHandlerTest {
         underTest.setCurrentNumber(NUMBER_TO_GUESS);
         underTest.setNumberOfTips(NUMBER_OF_TIPS);
         //when
-        String result = underTest.analyseGuess(guess);
+        GuessResult result = underTest.analyseGuess(guess);
         //then
         assertThat(result, equalTo(expected));
     }
 
-    @Test(expectedExceptions = NullPointerException.class)
+    @Test(expectedExceptions = IllegalArgumentException.class)
     public void testAnalyseGuessWithNPE() {
         //given
         //when
@@ -83,7 +80,7 @@ public class GameHandlerTest {
         //then
     }
 
-    @Test(expectedExceptions = NumberFormatException.class)
+    @Test(expectedExceptions = IllegalArgumentException.class)
     public void testAnalyseGuessWithNumberFormatException() {
         //given
         //when
@@ -100,7 +97,7 @@ public class GameHandlerTest {
         assertThat(result, equalTo(expected));
     }
 
-    @Test(expectedExceptions = NullPointerException.class)
+    @Test(expectedExceptions = IllegalArgumentException.class)
     public void testHandleGuessWithNPE() {
         //given
         //when
